@@ -1,6 +1,7 @@
 //! An [`Application`] wrapper around an [`IcedEditor`] to bridge between `iced_baseview` and
 //! `nih_plug_iced`.
 
+use crate::{IcedEditor, ParameterUpdate};
 use crossbeam::channel;
 use futures_util::FutureExt;
 use iced_baseview::{
@@ -10,8 +11,6 @@ use iced_baseview::{
 use nih_plug::prelude::GuiContext;
 use std::sync::Arc;
 use std::hash::{Hash, Hasher};
-
-use crate::{IcedEditor, ParameterUpdate};
 
 #[derive(Clone)]
 struct HashableReceiver {
@@ -113,17 +112,29 @@ impl<E: IcedEditor> iced_baseview::Application for IcedEditorWrapperApplication<
         window_subs: &mut WindowSubs<Self::Message>,
     ) -> Subscription<Self::Message> {
         // Since we're wrapping around `E::Message`, we need to do this transformation ourselves
-        let on_frame = window_subs.on_frame.clone();
-        let on_window_will_close = window_subs.on_window_will_close.clone();
         let mut editor_window_subs: WindowSubs<E::Message> = WindowSubs {
-            on_frame: Some(Arc::new(move || {
-                let cb = on_frame.clone();
-                cb.and_then(|cb| cb().and_then(|m| m.into_editor_message()))
-            })),
-            on_window_will_close: Some(Arc::new(move || {
-                let cb = on_window_will_close.clone();
-                cb.and_then(|cb| cb().and_then(|m| m.into_editor_message()))
-            })),
+            on_frame: match window_subs.on_frame.as_ref() {
+                Some(message) => {
+                    let message = message();
+                    Some(Arc::new(move || {
+                        message
+                            .as_ref()
+                            .and_then(|m| m.clone().into_editor_message())
+                    }))
+                }
+                _ => None,
+            },
+            on_window_will_close: match window_subs.on_window_will_close.as_ref() {
+                Some(message) => {
+                    let message = message();
+                    Some(Arc::new(move || {
+                        message
+                            .as_ref()
+                            .and_then(|m| m.clone().into_editor_message())
+                    }))
+                }
+                _ => None,
+            },
         };
 
         let hashable_receiver = HashableReceiver {
@@ -151,15 +162,15 @@ impl<E: IcedEditor> iced_baseview::Application for IcedEditorWrapperApplication<
                 .map(|m| Message::EditorMessage(m)),
         ]);
 
-        // if let Some(message) = editor_window_subs.on_frame.as_ref() {
-        //     let message = Arc::clone(message);
-        //     window_subs.on_frame = Some(Arc::new(move || message().map(Message::EditorMessage)));
-        // }
-        // if let Some(message) = editor_window_subs.on_window_will_close.as_ref() {
-        //     let message = Arc::clone(message);
-        //     window_subs.on_window_will_close =
-        //         Some(Arc::new(move || message().map(Message::EditorMessage)));
-        // }
+        if let Some(message) = editor_window_subs.on_frame.as_ref() {
+            let message = message().map(Message::EditorMessage);
+            window_subs.on_frame = Some(Arc::new(move || message.clone()));
+        }
+
+        if let Some(message) = editor_window_subs.on_window_will_close.as_ref() {
+            let message = message().map(Message::EditorMessage);
+            window_subs.on_window_will_close = Some(Arc::new(move || message.clone()));
+        }
 
         subscription
     }

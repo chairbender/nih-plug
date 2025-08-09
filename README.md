@@ -9,6 +9,9 @@ It takes the [complicated setup mentioned here](https://github.com/robbert-vdh/n
 and turns it into something that can be used directly without all that hassle by
 configuring all the needed dependencies without using local repos.
 
+Also includes the [fix mentioned](https://github.com/fazibear/nih-plug/commit/920e286bfd91fddb06b3a00a2b26973dc37a7709)
+in one of the threads by @fazibear
+
 As I was only focused on iced support, egui, vizia, etc... are not supported. Happy to collaborate with others
 to get everything working, however!
 
