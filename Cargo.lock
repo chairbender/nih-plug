@@ -2757,7 +2757,6 @@ dependencies = [
 [[package]]
 name = "iced_baseview"
 version = "0.1.0"
-source = "git+https://github.com/chairbender/iced_baseview.git?branch=support-iced-0.14#f7256943c82eaf2a112874d64ef34ee711589d4c"
 dependencies = [
  "baseview 0.1.0 (git+https://github.com/RustAudio/baseview.git?rev=579130ecb4f9f315ae52190af42f0ea46aeaa4a2)",
  "cfg-if",

@@ -50,7 +50,8 @@ crossbeam = "0.8"
 # HOWEVER: that PR references main branch of iced. Instead, we want to reference 0.14 for stability
 # (which didn't exist at the time). So, I have ALSO forked iced_baseview to fix this, making it
 # specifically point at 0.14 of iced. That's why the below points at one of my own forks.
-iced_baseview = { git = "https://github.com/chairbender/iced_baseview.git", branch = "support-iced-0.14"}
+#todo revert iced_baseview = { git = "https://github.com/chairbender/iced_baseview.git", branch = "support-iced-0.14"}
+iced_baseview = { path = "../../iced_baseview" }
 futures-util = "0.3"
 
 # To make the state persistable
