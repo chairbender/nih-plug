@@ -39,10 +39,18 @@ nih_plug_assets = { git = "https://github.com/robbert-vdh/nih_plug_assets.git" }
 raw-window-handle = "0.5"
 
 atomic_refcell = "0.1"
-baseview = { path = "../../baseview" }
+# per https://github.com/robbert-vdh/nih-plug/pull/170#issuecomment-3158546796 ,
+# this needs to reference a specific commit hash of baseview.
+# TODO: Is this still the case? This is quite odd - why not reference a specific / newer version?
+baseview = { git = "https://github.com/RustAudio/baseview.git", rev = "3724a00c970a9cd10a3494fa3c37bca66d631bb7" }
 crossbeam = "0.8"
-# This targets iced 0.13
-iced_baseview = { path = "../../iced_baseview/", version = "0.1.0"}
+# per the above instructions,
+# this needs to reference a specific branch in which changes were made
+# to iced_baseview to support 0.14.
+# HOWEVER: that PR references main branch of iced. Instead, we want to reference 0.14 for stability
+# (which didn't exist at the time). So, I have ALSO forked iced_baseview to fix this, making it
+# specifically point at 0.14 of iced. That's why the below points at one of my own forks.
+iced_baseview = { git = "https://github.com/chairbender/iced_baseview.git", branch = "support-iced-0.14"}
 futures-util = "0.3"
 
 # To make the state persistable
