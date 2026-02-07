@@ -1,3 +1,16 @@
+# Fork / Branch Note
+
+This fork / branch aims to support iced 0.14 in nih-plug. 
+
+It takes the [complicated setup mentioned here](https://github.com/robbert-vdh/nih-plug/pull/170#issuecomment-3158546796)
+and turns it into something that can be used directly without all that hassle by
+configuring all the needed dependencies without using local repos.
+
+## AI Policy
+
+The policy for AI in this repository is the same as for the Rust Audio community,
+as written here: https://rust.audio/community/ai/
+
 # NIH-plug
 
 [![Automated builds](https://github.com/robbert-vdh/nih-plug/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/robbert-vdh/nih-plug/actions/workflows/build.yml?query=branch%3Amaster)
