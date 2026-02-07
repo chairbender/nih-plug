@@ -9,6 +9,19 @@ It takes the [complicated setup mentioned here](https://github.com/robbert-vdh/n
 and turns it into something that can be used directly without all that hassle by
 configuring all the needed dependencies without using local repos.
 
+As I was only focused on iced support, egui, vizia, etc... are not supported. Happy to collaborate with others
+to get everything working, however!
+
+# Additional Changes
+The state of the PR I based it on (linked above) was against a slightly older version
+of iced. When I revisited this and pointed at 0.14, several things in nih_plug_iced
+broke. 
+Additionally, the rust nightly made some breaking changes to simd stuff.
+
+These changes were needed:
+* widget::Id location was moved (param_slider.rs)
+* lane counts are no longer a thing, just removed them / trait bounds (blocks.rs, samples.rs)
+
 ## AI Policy
 
 The policy for AI in this repository is the same as for the Rust Audio community,

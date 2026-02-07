@@ -8,8 +8,9 @@ use crate::core::{
     event, keyboard, layout, mouse, renderer, text, touch, Border, Clipboard, Color, Element,
     Event, Font, Layout, Length, Pixels, Point, Rectangle, Shell, Size, Vector, Widget,
 };
+use crate::core::widget::Id;
 use crate::widget::text_input;
-use crate::widget::text_input::{Id, TextInput};
+use crate::widget::text_input::{TextInput};
 
 use super::{util, ParamMessage};
 

@@ -3,7 +3,7 @@
 use std::marker::PhantomData;
 
 #[cfg(feature = "simd")]
-use std::simd::{LaneCount, Simd, SupportedLaneCount};
+use std::simd::{Simd};
 
 use super::SamplesIter;
 
@@ -227,8 +227,6 @@ impl<'slice, 'sample> Block<'slice, 'sample> {
         &self,
         sample_index: usize,
     ) -> Option<Simd<f32, LANES>>
-    where
-        LaneCount<LANES>: SupportedLaneCount,
     {
         if sample_index > self.samples() {
             return None;
@@ -259,8 +257,6 @@ impl<'slice, 'sample> Block<'slice, 'sample> {
         &self,
         sample_index: usize,
     ) -> Simd<f32, LANES>
-    where
-        LaneCount<LANES>: SupportedLaneCount,
     {
         let mut values = [0.0; LANES];
         for (channel_idx, value) in values.iter_mut().enumerate() {
@@ -285,8 +281,6 @@ impl<'slice, 'sample> Block<'slice, 'sample> {
         sample_index: usize,
         vector: Simd<f32, LANES>,
     ) -> bool
-    where
-        LaneCount<LANES>: SupportedLaneCount,
     {
         if sample_index > self.samples() {
             return false;
@@ -319,8 +313,7 @@ impl<'slice, 'sample> Block<'slice, 'sample> {
         &mut self,
         sample_index: usize,
         vector: Simd<f32, LANES>,
-    ) where
-        LaneCount<LANES>: SupportedLaneCount,
+    ) 
     {
         let values = vector.to_array();
         for (channel_idx, value) in values.into_iter().enumerate() {
