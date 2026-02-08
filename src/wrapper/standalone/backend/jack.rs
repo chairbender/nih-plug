@@ -437,13 +437,29 @@ impl Jack {
         let client = async_client.as_client();
 
         // We don't connect the inputs automatically to avoid feedback loops, but this should be
-        // safe. And if this fails, then that's fine.
-        for (i, output) in self.main_outputs.lock().iter().enumerate() {
-            // The system ports are 1-indexed
-            let port_no = i + 1;
+        // safe. And if this fails, then that's fine
+        /*
+        Collect port names WITHOUT holding the lock during jack_connect.
+        A surprising side effect of calling connect_ports (which calls jack_connect ultimately)
+        is that jack will end up calling some of our audio callbacks, which themselves try
+        to acquire the main outputs locks. So if we hold the lock here while trying to connect the ports,
+        we can end up deadlocking. Unlocking just to get the name and THEN calling connect
+        seems to be the safer approach.
+        */
+        let port_names: Vec<String> = {
+            let guard = self.main_outputs.lock();
+            guard.iter()
+                .map(|port| port.name())
+                .filter(Result::is_ok)
+                .map(Result::unwrap)
+                .collect::<Vec<_>>()
+        };
 
-            let system_playback_port_name = &format!("system:playback_{port_no}");
-            let _ = client.connect_ports_by_name(&output.name()?, system_playback_port_name);
+        // Now safe to call JACK functions and we no longer hold the lock
+        for (i, output_name) in port_names.iter().enumerate() {
+            let port_no = i + 1;
+            let system_playback_port_name = format!("system:playback_{port_no}");
+            let _ = client.connect_ports_by_name(&output_name, &system_playback_port_name);
         }
 
         // This option can either be set to a single port all inputs should be connected to, or a

@@ -30,6 +30,10 @@ These changes were needed:
   an equivalent that accepts a Mode. So we use that instead and need to somehow get
   the current mode.
 
+Some additional bugs that didn't seem related to the iced version change but were happening on my system 
+were addressed as well:
+* jack.rs - deadlocking when connecting ports. Changed when the lock is acquired to avoid the deadlock.
+
 ## AI Policy
 
 The policy for AI in this repository is the same as for the Rust Audio community,
