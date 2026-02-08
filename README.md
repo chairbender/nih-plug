@@ -21,6 +21,7 @@ Additionally, the rust nightly made some breaking changes to simd stuff.
 These changes were needed:
 * widget::Id location was moved (param_slider.rs)
 * lane counts are no longer a thing, just removed them / trait bounds (blocks.rs, samples.rs)
+* generic_ui.rs - container() signature changed - need to use new separate traverse operation
 
 ## AI Policy
 

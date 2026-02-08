@@ -166,7 +166,7 @@ pub trait IcedEditor: 'static + Send + Sync + Sized {
     /// See [`Application::Flags`].
     type InitializationFlags: 'static + Clone + Send + Sync;
     /// See [`Application::Theme`]
-    type Theme: Default + DefaultStyle;
+    type Theme: DefaultStyle;
 
     /// See [`Application::new`]. This also receivs the GUI context in addition to the flags.
     fn new(
@@ -201,7 +201,7 @@ pub trait IcedEditor: 'static + Send + Sync + Sized {
     }
 
     fn theme(&self) -> Self::Theme {
-        Self::Theme::default()
+        Theme::Dark
     }
 
     fn title(&self) -> String {
