@@ -108,6 +108,8 @@ use crate::widgets::ParamMessage;
 // FIXME: Running `cargo doc` on nightly compilers without this attribute triggers an ICE
 #[doc(no_inline)]
 pub use iced_baseview::*;
+use iced_baseview::theme::Mode;
+use crate::theme::Base;
 
 pub mod assets;
 mod editor;
@@ -166,7 +168,7 @@ pub trait IcedEditor: 'static + Send + Sync + Sized {
     /// See [`Application::Flags`].
     type InitializationFlags: 'static + Clone + Send + Sync;
     /// See [`Application::Theme`]
-    type Theme: DefaultStyle;
+    type Theme: Base + DefaultStyle;
 
     /// See [`Application::new`]. This also receivs the GUI context in addition to the flags.
     fn new(
@@ -201,7 +203,8 @@ pub trait IcedEditor: 'static + Send + Sync + Sized {
     }
 
     fn theme(&self) -> Self::Theme {
-        Theme::Dark
+        // TODO: should actually get the current mode.
+        Self::Theme::default(Mode::Dark)
     }
 
     fn title(&self) -> String {

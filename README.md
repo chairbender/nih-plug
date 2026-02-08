@@ -22,6 +22,10 @@ These changes were needed:
 * widget::Id location was moved (param_slider.rs)
 * lane counts are no longer a thing, just removed them / trait bounds (blocks.rs, samples.rs)
 * generic_ui.rs - container() signature changed - need to use new separate traverse operation
+* nih_plug_iced/lib.rs - iced Theme enum no longer implements default, so we can't use
+  that to construct an instance of the type, but it does implement Base, which has
+  an equivalent that accepts a Mode. So we use that instead and need to somehow get
+  the current mode.
 
 ## AI Policy
 
