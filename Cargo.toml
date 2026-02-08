@@ -115,7 +115,7 @@ assert_no_alloc = { git = "https://github.com/robbert-vdh/rust-assert-no-alloc.g
 # NOTE: OpenGL support is not needed here, but rust-analyzer gets confused when
 #       some crates do use it and others don't
 # Using fork - see explanation in nih_plug_iced/Cargo.toml
-baseview = { git = "https://github.com/RustAudio/baseview.git", rev = "3724a00c970a9cd10a3494fa3c37bca66d631bb7", default_features = false, optional = true  }
+baseview = { git = "https://github.com/RustAudio/baseview.git", rev = "237d323c729f3aa99476ba3efa50129c5e86cad3", default_features = false, optional = true  }
 # All the claps!
 clap = { version = "4.1.8", features = [
   "derive",

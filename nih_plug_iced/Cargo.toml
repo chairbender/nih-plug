@@ -42,7 +42,7 @@ atomic_refcell = "0.1"
 # per https://github.com/robbert-vdh/nih-plug/pull/170#issuecomment-3158546796 ,
 # this needs to reference a specific commit hash of baseview.
 # TODO: Is this still the case? This is quite odd - why not reference a specific / newer version?
-baseview = { git = "https://github.com/RustAudio/baseview.git", rev = "3724a00c970a9cd10a3494fa3c37bca66d631bb7" }
+baseview = { git = "https://github.com/RustAudio/baseview.git", rev = "237d323c729f3aa99476ba3efa50129c5e86cad3" }
 crossbeam = "0.8"
 # per the above instructions,
 # this needs to reference a specific branch in which changes were made
